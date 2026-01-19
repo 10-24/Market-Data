@@ -61,7 +61,8 @@ INSERT INTO data_subscription VALUES ('kraken','BTC','USD');
 INSERT INTO data_subscription VALUES ('coinbase','SOL','USD');
 INSERT INTO data_subscription VALUES ('bybit','SUI','USDT');
 ```
-> - [List of exchange_ids](https://github.com/ccxt/ccxt?tab=readme-ov-file#supported-cryptocurrency-exchanges).
+> [!NOTE]
+> - [List of exchange ids](https://github.com/ccxt/ccxt?tab=readme-ov-file#supported-cryptocurrency-exchanges).
 > - Each subscription uses approximately $0.9 \text{megabytes}/text{day}$ after compression.
 
 Disconnect from the database when done:
