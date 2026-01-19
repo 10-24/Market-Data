@@ -2,24 +2,37 @@ Aggregate candles for 108 exchanges at sub-second precision with [CCXT](https://
 
 ![](attachment/9srn38c8213.webp)
 
-# Quick Start 📈
-1. Download the [market-data](https://github.com/10-24/Market-Data/releases/latest) executable into a project folder.
+# Table of Contents
+- [Quick Start](<readme#Quick Start>)
+- [Reading Market Data](#Read Market Data)
+- [Architecture](#Architecture)
+- [Contact](#Contact)
 
-2. Install [DuckDB CLI](https://duckdb.org/install/?platform=linux&environment=cli)
+# Quick Start
 
-```bash
-curl https://install.duckdb.org | sh # Linux & MacOS
-```
-For Windows, you can download it [here](https://duckdb.org/install/?platform=windows&environment=cli).
+### Prerequisites
 
-3. Initialize a New Database
+1. **Download the executable**
+   - Get the [market-data](https://github.com/10-24/Market-Data/releases/latest) executable and place it in your project folder.
+
+2. **Install DuckDB CLI**
+
+   **Linux & MacOS:**
+   ```bash
+   curl https://install.duckdb.org | sh
+   ```
+
+   **Windows:** Download it [here](https://duckdb.org/install/?platform=windows&environment=cli).
+
+### Step 1: Set Up the Database
+
+Initialize a new database (can be placed anywhere):
 
 ```bash
 duckdb ./database.duckdb
 ```
-This could be anywhere.
 
-4. Create Template Tables
+Once connected, create the required tables:
 
 ```sql
 CREATE TABLE data_subscription (
@@ -39,32 +52,33 @@ CREATE TABLE data_catalog (
 );
 ```
 
+### Step 2: Add Subscriptions
 
-5. Create Subscriptions
+Add the trading pairs you want to track:
 
 ```sql
 INSERT INTO data_subscription VALUES ('kraken','BTC','USD');
 INSERT INTO data_subscription VALUES ('coinbase','SOL','USD');
 INSERT INTO data_subscription VALUES ('bybit','SUI','USDT');
-...
 ```
 
-See [CCXT](https://github.com/ccxt/ccxt?tab=readme-ov-file#supported-cryptocurrency-exchanges) for the full list of supported exchange_ids. After compression, each subscription allocates approximately $0.9 \ \frac{\text{megabytes}}{day}$. 
+> **Note:** See [CCXT](https://github.com/ccxt/ccxt?tab=readme-ov-file#supported-cryptocurrency-exchanges) for the full list of supported exchange IDs. Each subscription uses approximately 0.9 MB/day after compression.
 
-6. Disconnect from the Database
+Disconnect from the database when done:
 
 ```sql
 .quit
 ```
 
-7. Create `project/config/config.toml`[^1]
+### Step 3: Add the Configure
+
+Create a `project/config/config.toml` file:
 
 ```toml
 # config.toml
-db_path = "./database.duckdb" # or your custom path
+db_path = "./database.duckdb"  # or your custom path
 
-
-# Its unlikely you'll need to adjust these.
+# Optional: Adjust batch sizes if needed
 [settings.watch_trades]
 batch_size = 32
 batch_buffer_size = 32
@@ -74,17 +88,17 @@ batch_size = 64
 batch_buffer_size = 16
 ```
 
-8. Execute the Executable 🔥
+### Step 4: Run the Application 🔥
 
 ```bash
 ./market-data
 ```
 
-Candles aggregate trades over intervals of `500ms`. [Read more](readme#Candle)
+That's it. Candles will be aggregated at 500ms intervals. [Read More](#Candle)
 
 
-
-## Read Candles (SQL)
+# Read Market Data 
+## SQL
 
 To read market data while pipeline is running 
 
@@ -104,7 +118,7 @@ Then view the data from one of the tables.
 SELECT * FROM <table_name> -- ex: 'SELECT * FROM btcusd_kraken_candles'
 ```
 
-## Read Candles (Python)
+## Python
 
 ```python
 import duckdb
@@ -185,7 +199,8 @@ Warning: Dropped Trade for BASE/QUOTE@exchange
 This indicates a trade couldn't be added to a candle because it before the interval started. Particular exchanges, like `MEXC`, have stronger tendencies to drop trades.
 
 ---
-
+## Contact
 If you have any questions, my email is RYAN@01024.xyz 🙌
 
 [^1]: Creating `./config/markets/` allows you to bypass particular reigon blocks 🦅🦅, but its not described in this guide.
+t
