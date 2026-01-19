@@ -1,0 +1,9 @@
+db_path = "/home/ryan/Documents/Duckdb/market_data.db"
+
+[settings.watch_trades]
+batch_size = 32
+batch_buffer_size = 32
+
+[settings.create_candles]
+batch_size = 64
+batch_buffer_size = 16
