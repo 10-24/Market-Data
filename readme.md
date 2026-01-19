@@ -2,25 +2,24 @@ Aggregate candles for 108 exchanges at sub-second precision with [CCXT](https://
 
 ![](attachment/9srn38c8213.webp)
 
-# Quick Start
+# Quick Start 📈
+1. Download the [market-data](https://github.com/10-24/Market-Data/releases/latest) executable into a project folder.
 
-## Setting up the Database
-
-1) Install [DuckDB CLI](https://duckdb.org/install/?platform=linux&environment=cli)
+2. Install [DuckDB CLI](https://duckdb.org/install/?platform=linux&environment=cli)
 
 ```bash
 curl https://install.duckdb.org | sh # Linux & MacOS
 ```
-If you're on windows, you can download it [here](https://duckdb.org/install/?platform=windows&environment=cli).
+For Windows, you can download it [here](https://duckdb.org/install/?platform=windows&environment=cli).
 
-2) Initialize a New Database
+3. Initialize a New Database
 
 ```bash
-duckdb path/to/my_database.duckdb
+duckdb ./database.duckdb
 ```
+This could be anywhere.
 
-
-3) Create Template Tables
+4. Create Template Tables
 
 ```sql
 CREATE TABLE data_subscription (
@@ -41,7 +40,7 @@ CREATE TABLE data_catalog (
 ```
 
 
-4) Subscribe to Market Data
+5. Create Subscriptions
 
 ```sql
 INSERT INTO data_subscription VALUES ('kraken','BTC','USD');
@@ -52,24 +51,20 @@ INSERT INTO data_subscription VALUES ('bybit','SUI','USDT');
 
 See [CCXT](https://github.com/ccxt/ccxt?tab=readme-ov-file#supported-cryptocurrency-exchanges) for the full list of supported exchange_ids. After compression, each subscription allocates approximately $0.9 \ \frac{\text{megabytes}}{day}$. 
 
-5) Disconnect from the Database
+6. Disconnect from the Database
 
 ```sql
 .quit
 ```
 
-## Create Config
-
-5) Create `./config/config.toml`[^1] in the same directory as your executable.
+7. Create `project/config/config.toml`[^1]
 
 ```toml
 # config.toml
+db_path = "./database.duckdb" # or your custom path
 
-db_path = "path/to/database.duckdb"
 
-# ----------------------------------------
 # Its unlikely you'll need to adjust these.
-
 [settings.watch_trades]
 batch_size = 32
 batch_buffer_size = 32
@@ -79,20 +74,22 @@ batch_size = 64
 batch_buffer_size = 16
 ```
 
-## Execute the Executable 🔥
+8. Execute the Executable 🔥
 
 ```bash
-./pipeline
+./market-data
 ```
 
 Candles aggregate trades over intervals of `500ms`. [Read more](readme#Candle)
+
+
 
 ## Read Candles (SQL)
 
 To read market data while pipeline is running 
 
 ```bash
-duckdb path/to/my_database.duckdb -readonly
+duckdb ./database.duckdb -readonly
 ```
 
 To see all the market data tables run:
