@@ -38,3 +38,4 @@ dist/
 Thumbs.db
 *.gob
 config/markets/*.gob
+market-data
