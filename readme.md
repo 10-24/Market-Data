@@ -3,8 +3,8 @@ Aggregate candles for 108 exchanges at sub-second precision with [CCXT](https://
 ![](attachment/9srn38c8213.webp)
 
 # Table of Contents
-- [Quick Start](<readme#Quick Start>)
-- [Reading Market Data](#Read Market Data)
+- [Quick Start](#quick-start)
+- [Reading Market Data](#read-market-data)
 - [Architecture](#Architecture)
 - [Contact](#Contact)
 
@@ -12,8 +12,8 @@ Aggregate candles for 108 exchanges at sub-second precision with [CCXT](https://
 
 ### Prerequisites
 
-1. **Download the executable**
-   - Get the [market-data](https://github.com/10-24/Market-Data/releases/latest) executable and place it in your project folder.
+1. **Download the executable**  
+   Get the [market-data](https://github.com/10-24/Market-Data/releases/latest) executable and place it in your project folder.
 
 2. **Install DuckDB CLI**
 
@@ -22,7 +22,7 @@ Aggregate candles for 108 exchanges at sub-second precision with [CCXT](https://
    curl https://install.duckdb.org | sh
    ```
 
-   **Windows:** Download it [here](https://duckdb.org/install/?platform=windows&environment=cli).
+   **Windows:** [Download here](https://duckdb.org/install/?platform=windows&environment=cli).
 
 ### Step 1: Set Up the Database
 
