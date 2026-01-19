@@ -173,7 +173,7 @@ The base duration is $500 \text{ms}$. However, any duration that is a multiple o
 | vwap        | FLOAT           | Float32            |
 | trade_count | UINTEGER        | UInt32             |
 
-Clearly I've compromised precison using floating point numbers. However, if a model is effected by an error that is $1/3$ of $1\%$ of $1\%$— its likely overfitting. This is precise enough for statistical models.
+Clearly I've compromised precison using floating point numbers. However, if a model is effected by an error that is $1/3$ of $1$% of $1$%— its likely overfitting. This is precise enough for statistical models.
 
 $$
  \frac{5}{10^{7.22}} \times 100 =  \frac{1}{20,000} \times \frac{1}{10^{0.22}} \approx 0.003013\% 
