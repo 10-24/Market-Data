@@ -1,5 +1,7 @@
 Aggregate candles for 108 exchanges at sub-second precision with [CCXT](https://github.com/ccxt/ccxt) and [DuckDB](https://duckdb.org/).
+
 ![](attachment/9srn38c8213.webp)
+
 # Quick Start
 
 ## Setting up the Database
