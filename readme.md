@@ -22,7 +22,8 @@ Aggregate candles for 108 exchanges at sub-second precision with [CCXT](https://
    curl https://install.duckdb.org | sh
    ```
 
-   **Windows:** [Download here](https://duckdb.org/install/?platform=windows&environment=cli).
+   **Windows:**  
+  [Download here](https://duckdb.org/install/?platform=windows&environment=cli). Note that DuckDB on Windows also requires the [Microsoft Visual C++ Redistributable](https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170).
 
 ### Step 1: Setup the Database
 
@@ -35,26 +36,26 @@ duckdb ./database.duckdb
 Once connected, create the required tables:
 
 ```sql
-CREATE TABLE data_subscription (
+CREATE TABLE data_subscription ( --Instruments to Track 
     exchange_id    VARCHAR,
     base           VARCHAR,
     quote          VARCHAR,
     UNIQUE(base, quote, exchange_id)
 );
 
-CREATE TABLE data_catalog (
+CREATE TABLE data_catalog ( --All Market Data Ever Collected
     table_name     VARCHAR, 
     base           VARCHAR, 
     quote          VARCHAR, 
     exchange_id    VARCHAR, 
     created_at     TIMESTAMP, 
-    UNIQUE(base, quote, exchange_id)
+    UNIQUE(table_name)
 );
 ```
 
 ### Step 2: Add Subscriptions
 
-Add the trading pairs you want to track:
+The instruments you want to track:
 
 ```sql
 INSERT INTO data_subscription VALUES ('kraken','BTC','USD');
@@ -62,7 +63,7 @@ INSERT INTO data_subscription VALUES ('coinbase','SOL','USD');
 INSERT INTO data_subscription VALUES ('bybit','SUI','USDT');
 ```
 **Note:**
- - [List of exchange ids](https://github.com/ccxt/ccxt?tab=readme-ov-file#supported-cryptocurrency-exchanges).
+ - List of [supported exchange_ids](https://github.com/ccxt/ccxt?tab=readme-ov-file#supported-cryptocurrency-exchanges).
  - Each subscription uses approximately $0.9 \ \text{megabytes}/\text{day}$ after compression.
 
 Disconnect from the database when done:
@@ -120,14 +121,19 @@ SELECT * FROM <table_name> -- ex: 'SELECT * FROM btcusd_kraken_candles'
 ```
 
 ## Python
+**Install Prerequisites:**
+```bash
+pip install duckdb polars
+``` 
 
 ```python
 import duckdb
 
 conn = duckdb.connect(database='path/to/database.duckdb', read_only=True)
-df = conn.sql("SELECT * FROM linkusd_okx_candles").pl()
-
+df = conn.sql("SELECT * FROM btcusd_bybit_candles").pl()
 df = hydrate_candles(df)
+
+print(df)
 ```
 
 
