@@ -49,7 +49,7 @@ CREATE TABLE data_catalog ( --All Market Data Ever Collected
     quote          VARCHAR, 
     exchange_id    VARCHAR, 
     created_at     TIMESTAMP, 
-    UNIQUE(table_name)
+    UNIQUE(base, quote, exchange_id)
 );
 ```
 
